@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable", "WebWorker"],
+    "paths": {
+      "@sg-pattern-engine/core": ["../../packages/core/dist/index.d.ts"],
+      "@sg-pattern-engine/react": ["../../packages/react/dist/index.d.ts"],
+      "@sg-pattern-engine/algorithms": ["../../packages/algorithms/dist/index.d.ts"],
+      "@sg-pattern-engine/renderers": ["../../packages/renderers/dist/index.d.ts"]
+    }
+  },
+  "include": ["src"]
+}

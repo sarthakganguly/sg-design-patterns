@@ -1,4 +1,4 @@
-export * from './types';
+export * from './types/index';
 export * from './engine/PatternEngine';
 export * from './engine/WorkerPool';
 export * from './engine/TileRenderer';

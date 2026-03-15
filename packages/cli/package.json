@@ -4,18 +4,29 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
   "bin": {
     "pattern-engine": "./bin/cli.js"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts --clean"
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean --external commander --external @sg-pattern-engine/core --external @sg-pattern-engine/algorithms"
   },
   "dependencies": {
     "@sg-pattern-engine/core": "workspace:*",
-    "@sg-pattern-engine/algorithms": "workspace:*"
+    "@sg-pattern-engine/algorithms": "workspace:*",
+    "commander": "^12.0.0"
   },
   "devDependencies": {
     "tsup": "^8.0.0",
     "typescript": "^5.4.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

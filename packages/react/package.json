@@ -4,15 +4,30 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts --clean"
   },
   "dependencies": {
-  "@sg-pattern-engine/core": "workspace:*",
-  "@sg-pattern-engine/renderers": "workspace:*",
-  "@sg-pattern-engine/algorithms": "workspace:*"
-},
+    "@sg-pattern-engine/core": "workspace:*",
+    "@sg-pattern-engine/renderers": "workspace:*",
+    "@sg-pattern-engine/algorithms": "workspace:*"
+  },
   "peerDependencies": {
     "react": "^18.0.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "@types/react": "^18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -4,7 +4,6 @@ export class VoronoiPlugin implements AlgorithmPlugin {
   name = 'voronoi';
 
   generate(ctx: AlgorithmContext): AlgorithmOutput {
-    const { width, height } = ctx.tile;
     const pointsCount = ctx.config.density || 50;
     const points = [];
 
@@ -15,7 +14,6 @@ export class VoronoiPlugin implements AlgorithmPlugin {
       });
     }
 
-    // Return as points for the renderer to process distance calculations
     return { type: 'points', data: points };
   }
 }

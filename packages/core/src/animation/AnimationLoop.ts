@@ -33,39 +33,38 @@ export class AnimationLoop {
     this.startTime = null;
 
     const tick = async (now: number) => {
-      if (this.startTime === null) this.startTime = now;
-      const elapsed  = (now - this.startTime) / 1000;
-      const duration = Math.min(this.config.duration ?? 5, 30);
-      const fps      = this.config.fps ?? 30;
-      const total    = this.totalFrames;
+        if (this.startTime === null) this.startTime = now;
+        const elapsed  = (now - this.startTime) / 1000;
+        const fps      = this.config.fps ?? 30;
+        const total    = this.totalFrames;
 
-      const expectedFrame = Math.floor(elapsed * fps);
+        const expectedFrame = Math.floor(elapsed * fps);
 
-      if (expectedFrame > this.frameIndex) {
-        this.frameIndex = expectedFrame;
+        if (expectedFrame > this.frameIndex) {
+            this.frameIndex = expectedFrame;
 
-        if (this.frameIndex >= total) {
-          if (this.config.loop) {
-            this.frameIndex = 0;
-            this.startTime = now;
-          } else {
-            this.stop();
-            return;
-          }
+            if (this.frameIndex >= total) {
+            if (this.config.loop) {
+                this.frameIndex = 0;
+                this.startTime = now;
+            } else {
+                this.stop();
+                return;
+            }
+            }
+
+            const progress = this.frameIndex / Math.max(total - 1, 1);
+            await onFrame({
+            frameIndex:  this.frameIndex,
+            totalFrames: total,
+            time:        this.frameIndex / fps,
+            progress,
+            seed:        `${this.config.seed}_frame_${this.frameIndex}`,
+            });
         }
 
-        const progress = this.frameIndex / Math.max(total - 1, 1);
-        await onFrame({
-          frameIndex: this.frameIndex,
-          totalFrames: total,
-          time:        this.frameIndex / fps,
-          progress,
-          seed:        `${this.config.seed}_frame_${this.frameIndex}`,
-        });
-      }
-
-      this.rafId = requestAnimationFrame(tick);
-    };
+        this.rafId = requestAnimationFrame(tick);
+        };
 
     this.rafId = requestAnimationFrame(tick);
   }

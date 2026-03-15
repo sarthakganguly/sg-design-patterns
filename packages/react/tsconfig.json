@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "paths": {
+      "@sg-pattern-engine/core": ["../core/dist/index.d.ts"],
+      "@sg-pattern-engine/renderers": ["../renderers/dist/index.d.ts"],
+      "@sg-pattern-engine/algorithms": ["../algorithms/dist/index.d.ts"]
+    }
+  },
+  "include": ["src"]
+}
