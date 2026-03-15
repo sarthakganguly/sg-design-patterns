@@ -1,32 +1,45 @@
-import { AlgorithmOutput, Tile } from '@sg-pattern-engine/core';
+import { AlgorithmOutput, Tile, PatternConfig, ColorMapper, SymmetryTransform, ScalarField } from '@sg-pattern-engine/core';
 
 export class CanvasRenderer {
-  public render(ctx: CanvasRenderingContext2D, output: AlgorithmOutput, tile: Tile): void {
+  public render(
+    ctx: CanvasRenderingContext2D,
+    output: AlgorithmOutput,
+    tile: Tile,
+    config?: PatternConfig
+  ): void {
+
     if (output.type === 'scalarField') {
+      let field = new ScalarField(output.width, output.height, output.data);
+
+      // Apply symmetry if config present
+      if (config) {
+        field = SymmetryTransform.apply(field, config);
+      }
+
+      const mapper = new ColorMapper(config ?? { width: output.width, height: output.height, seed: 0, algorithm: '', renderer: '' });
       const imageData = ctx.createImageData(output.width, output.height);
-      for (let i = 0; i < output.data.length; i++) {
-        const val = Math.floor(output.data[i] * 255);
+
+      for (let i = 0; i < output.width * output.height; i++) {
+        const rgb = ColorMapper.toBytes(mapper.map(field.data[i]));
         const idx = i * 4;
-        imageData.data[idx]     = val;
-        imageData.data[idx + 1] = val;
-        imageData.data[idx + 2] = val;
+        imageData.data[idx]     = rgb[0];
+        imageData.data[idx + 1] = rgb[1];
+        imageData.data[idx + 2] = rgb[2];
         imageData.data[idx + 3] = 255;
       }
       ctx.putImageData(imageData, tile.offsetX, tile.offsetY);
 
     } else if (output.type === 'vectorField') {
       const imageData = ctx.createImageData(output.width, output.height);
-      // data is interleaved [dx, dy, dx, dy...]
       const pixelCount = output.width * output.height;
       for (let i = 0; i < pixelCount; i++) {
         const dx = output.data[i * 2];
         const dy = output.data[i * 2 + 1];
-        // Map angle to hue, magnitude to brightness
-        const angle = Math.atan2(dy, dx); // -PI to PI
-        const hue = ((angle / Math.PI) * 180 + 180) % 360; // 0-360
-        const magnitude = Math.sqrt(dx * dx + dy * dy);
+        const angle      = Math.atan2(dy, dx);
+        const hue        = ((angle / Math.PI) * 180 + 180) % 360;
+        const magnitude  = Math.sqrt(dx * dx + dy * dy);
         const brightness = Math.min(magnitude, 1);
-        const [r, g, b] = this.hslToRgb(hue / 360, 0.8, 0.3 + brightness * 0.5);
+        const [r, g, b]  = this.hslToRgb(hue / 360, 0.8, 0.3 + brightness * 0.5);
         const idx = i * 4;
         imageData.data[idx]     = r;
         imageData.data[idx + 1] = g;

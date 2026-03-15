@@ -43,6 +43,10 @@ export interface PatternConfig {
   loop?: boolean;
   evolutionSpeed?: number;
 
+  // Reaction-diffusion specific
+  feedRate?: number;  // Gray-Scott feed rate (default 0.0545)
+  killRate?: number;  // Gray-Scott kill rate (default 0.062)
+
   // Tile rendering
   tileable?: boolean;
   tileSize?: number; // default 512

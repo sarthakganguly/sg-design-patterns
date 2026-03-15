@@ -9,3 +9,6 @@ export * from './fields/ScalarField';
 export * from './fields/VectorField';
 export * from './utils/BufferPool';
 export * from './utils/Logger';
+export * from './transforms/SymmetryTransform';
+export * from './transforms/ColorMapper';
+export * from './animation/AnimationLoop';
