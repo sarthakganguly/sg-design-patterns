@@ -1,0 +1,30 @@
+{
+  "name": "@sg-pattern-engine/root",
+  "private": true,
+  "version": "1.0.0",
+  "description": "High-performance, deterministic procedural pattern engine",
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "test": "turbo run test",
+    "lint": "eslint \"**/*.{ts,tsx}\"",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "playground": "turbo run dev --filter=@sg-pattern-engine/playground",
+    "clean": "rm -rf node_modules packages/*/dist apps/*/dist .turbo"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
+    "turbo": "^1.13.0",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.1"
+  }
+}

@@ -1,0 +1,10 @@
+services:
+  pattern-engine-dev:
+    build: .
+    network_mode: "host"  # Use host networking for better performance
+    volumes:
+      - .:/workspace
+      - /workspace/node_modules
+    environment:
+      - NODE_ENV=development
+    tty: true
